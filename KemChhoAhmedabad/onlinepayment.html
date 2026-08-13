@@ -1,0 +1,394 @@
+<!--onlinepayment.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | Kem Chho Ahmedabad</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. VISUAL UPGRADE (Teal & Green Theme) --- */
+        :root {
+            /* Brand Colors */
+            --kc-teal-dark: #00627b;
+            --kc-teal-light: #008c9e;
+
+            /* NEW: Replaced Orange with "Trust Green" for Payments */
+            --kc-accent-color: #27ae60;
+            --kc-accent-hover: #219150;
+
+            --kc-bg-soft: #f4fbfd;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+
+            /* Gradients */
+            --header-gradient: linear-gradient(135deg, #004e63 0%, #00627b 100%);
+            --btn-gradient: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+
+            /* Shadows & Radius */
+            --card-shadow: 0 20px 50px rgba(0, 98, 123, 0.12);
+            --input-focus-shadow: 0 0 0 4px rgba(39, 174, 96, 0.15);
+            /* Green Glow */
+            --radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background-color: var(--kc-bg-soft);
+            background-image: radial-gradient(#00627b 0.5px, transparent 0.5px), radial-gradient(#00627b 0.5px, var(--kc-bg-soft) 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-color: #f0f7f9;
+
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- 2. PAYMENT CARD --- */
+        .payment-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            animation: slideUpFade 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-header {
+            background: var(--header-gradient);
+            padding: 35px 25px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .payment-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .payment-header::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: -10px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .payment-header h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .payment-header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            font-weight: 300;
+        }
+
+        /* --- 3. TABS --- */
+        .payment-tabs {
+            background: #f1f5f8;
+            padding: 6px;
+            border-radius: 16px;
+            display: flex;
+            gap: 10px;
+            margin: 0 5px;
+        }
+
+        .btn-check {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
+            pointer-events: none;
+        }
+
+        .payment-tab {
+            cursor: pointer;
+            border: 2px solid transparent;
+            background: transparent;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+            color: var(--text-muted);
+            font-weight: 500;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .payment-tab-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+            transition: var(--transition);
+            color: #b2bec3;
+        }
+
+        .payment-tab:hover {
+            color: var(--kc-teal-dark);
+        }
+
+        .payment-tab:hover .payment-tab-icon {
+            color: var(--kc-teal-light);
+        }
+
+        .btn-check:checked+.payment-tab {
+            background: white;
+            color: var(--kc-teal-dark);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transform: scale(1.02);
+            font-weight: 600;
+        }
+
+        .btn-check:checked+.payment-tab .payment-tab-icon {
+            color: var(--kc-accent-color);
+            transform: scale(1.1);
+        }
+
+        /* --- 4. INPUTS --- */
+        .payment-body {
+            padding: 5px 15px;
+        }
+
+        .form-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .payment-input {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #dfe6e9;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background: #fdfdfd;
+            transition: var(--transition);
+        }
+
+        .payment-input:focus {
+            background: #fff;
+            border-color: var(--kc-accent-color);
+            outline: none;
+            box-shadow: var(--input-focus-shadow);
+            transform: translateY(-1px);
+        }
+
+        /* --- 5. BUTTONS --- */
+        .payment-btn {
+            background: var(--btn-gradient);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            margin-top: 15px;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.25);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(39, 174, 96, 0.35);
+            color: white;
+            background: linear-gradient(135deg, #219150 0%, #27ae60 100%);
+        }
+
+        .payment-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* --- 6. ANIMATIONS & BADGES --- */
+        .payment-section {
+            display: none;
+            animation: fadeInSection 0.4s ease forwards;
+        }
+
+        .payment-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInSection {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 25px;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .secure-badge i {
+            color: var(--kc-accent-color);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+
+                <div class="payment-card">
+                    <div class="payment-header">
+                        <h4><i class="fas fa-shield-alt me-2"></i>Secure Payment</h4>
+                        <p>Total amount to pay</p>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <form action="{{ url_for('process_payment') }}" method="POST">
+                            <div class="payment-tabs mb-4">
+                                <input type="radio" name="payment-method" id="tab-card" class="btn-check" value="card"
+                                    checked>
+                                <label class="payment-tab" for="tab-card">
+                                    <div class="payment-tab-icon"><i class="far fa-credit-card"></i></div>
+                                    <span>Card</span>
+                                </label>
+
+                                <input type="radio" name="payment-method" id="tab-upi" class="btn-check" value="upi">
+                                <label class="payment-tab" for="tab-upi">
+                                    <div class="payment-tab-icon"><i class="fas fa-mobile-alt"></i></div>
+                                    <span>UPI</span>
+                                </label>
+                            </div>
+
+                            <div class="payment-body">
+                                <div id="section-card" class="payment-section active">
+                                    <div class="mb-3">
+                                        <label class="form-label">Card Number</label>
+                                        <div class="input-group">
+                                            <input type="text" name="card_number" class="payment-input"
+                                                placeholder="0000 0000 0000 0000">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label class="form-label">Expiry Date</label>
+                                            <input type="text" name="expiry" class="payment-input"
+                                                placeholder="MM / YY">
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <label class="form-label">CVV</label>
+                                            <input type="password" name="cvv" class="payment-input" placeholder="***">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Card Holder Name</label>
+                                        <input type="text" name="card_name" class="payment-input"
+                                            placeholder="Name on card">
+                                    </div>
+                                </div>
+
+                                <div id="section-upi" class="payment-section">
+                                    <div class="mb-3">
+                                        <label class="form-label">UPI ID</label>
+                                        <input type="text" name="upi_id" class="payment-input"
+                                            placeholder="username@bank">
+                                        <div class="d-flex align-items-start mt-2 ms-1">
+                                            <i class="fas fa-info-circle text-primary me-2 mt-1"></i>
+                                            <small class="text-muted" style="line-height: 1.3;">A payment request will
+                                                be sent to your UPI app.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn payment-btn">
+                                    Pay Now <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i> 256-bit SSL Encrypted Connection
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('input[name="payment-method"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Hide all sections first
+                document.querySelectorAll('.payment-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Determine target ID based on selection
+                const targetId = `section-${e.target.id.split('-')[1]}`;
+
+                // Show new section with animation
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

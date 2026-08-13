@@ -1,0 +1,450 @@
+<!--photoshoot.html-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Photoshoot | Kem Chho Ahmedabad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --color-bg-main: #f4fbfd;
+            --color-primary: #00627b;
+            --color-primary-light: #008c9e;
+            --color-accent: #ff6b35;
+            --color-text-dark: #2d3436;
+            --color-text-soft: #636e72;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-soft: 0 10px 30px rgba(0, 98, 123, 0.08);
+            --shadow-hover: 0 20px 40px rgba(0, 98, 123, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg-main);
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 98, 123, 0.03) 0%, transparent 20%);
+            color: var(--color-text-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1,
+        h2,
+        h3,
+        .modal-title,
+        .section-header {
+            font-family: 'Cinzel Decorative', cursive;
+            color: var(--color-primary);
+        }
+
+        .bg-decoration {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .circle-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--color-primary-light);
+            opacity: 0.15;
+        }
+
+        .circle-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--color-accent);
+            opacity: 0.1;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-soft);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .premium-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s ease;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(0, 98, 123, 0.3);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .premium-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--color-accent), #e55a2b);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            color: var(--color-text-soft);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-premium {
+            background: linear-gradient(to right, var(--color-primary), var(--color-primary-light));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, var(--color-accent), #ff8c5a);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn-premium:hover {
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 98, 123, 0.3);
+        }
+
+        .btn-premium:hover::before {
+            width: 100%;
+        }
+
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--color-primary);
+        }
+
+        .section-header {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-primary-light);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .schedule-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .schedule-list li {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--color-text-soft);
+            display: flex;
+            align-items: center;
+        }
+
+        .schedule-list li i {
+            color: var(--color-accent);
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        .price-tag-large span {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        .border-end-md {
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-img-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto;
+            padding: 5px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+        }
+
+        .profile-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .rating {
+            color: var(--color-accent);
+            letter-spacing: 5px;
+        }
+
+        .btn-confirm-booking {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: white;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-confirm-booking:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 98, 123, 0.4);
+            color: white;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .border-end-md {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                padding-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-decoration circle-1"></div>
+    <div class="bg-decoration circle-2"></div>
+    <header class="text-center py-5 fade-in">
+        <h1 class="main-title">Kem Chho Ahmedabad</h1>
+        <p class="subtitle">Exclusive Wedding Photoshoot Experiences</p>
+    </header>
+    <main class="container pb-5">
+        <div class="row g-4 justify-content-center">
+            {% for loc in locations %}
+            <div class="col-md-6 col-lg-4 fade-in" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                <div class="premium-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="{{ url_for('static', filename='images/' + loc.image) }}" alt="{{ loc.name }}"
+                            class="card-img-top">
+                        <div class="price-badge">₹{{ loc.price }}</div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 class="card-title">{{ loc.name }}</h3>
+                        <p class="card-text">{{ loc.description }}</p>
+                        <button class="btn btn-premium select-btn" data-id="{{ loc.id }}" data-name="{{ loc.name }}"
+                            data-price="{{ loc.price }}">
+                            Select for Photoshoot
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <div class="modal fade modal-premium" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="modalLocationName">Location Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-7 border-end-md">
+                            <h6 class="section-header">Package Includes</h6>
+                            <ul class="schedule-list">
+                                <li><i class="bi bi-car-front-fill"></i> Next-day Luxury Pickup</li>
+                                <li><i class="bi bi-geo-alt-fill"></i> Comfortable Travel to Destination</li>
+                                <li><i class="bi bi-camera-fill"></i> 4-Hour Professional Coverage</li>
+                                <li><i class="bi bi-people-fill"></i> On-site Assistance Team</li>
+                                <li><i class="bi bi-house-door-fill"></i> Drop-off back to starting location</li>
+                            </ul>
+                            <div class="price-tag-large mt-4">
+                                Total Price: <span>₹<span id="modalPrice">00,000</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 mt-4 mt-md-0">
+                            <h6 class="section-header">Your Assigned Photographer</h6>
+                            <div class="photographer-profile text-center">
+                                <div class="profile-img-wrapper mb-3">
+                                    <img src="{{ url_for('static', filename='images/photographer_placeholder.jpg') }}"
+                                        alt="Photographer" id="photographerImage">
+                                </div>
+                                <h5 id="photographerName" class="mb-1">Loading...</h5>
+                                <p class="text-muted small">Senior Wedding Specialist</p>
+                                <div class="rating">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn btn-confirm-booking" id="confirmBookingBtn">
+                        Confirm Booking & Pay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const photographers = [
+                {% if photographers %}
+                    {% for p in photographers %}
+        { name: "{{ p['username'] }}", image: "photographer_placeholder.jpg" },
+        {% endfor %}
+        {% else %}
+        // Fallback
+        { name: "LensMaster", image: "photographer_placeholder.jpg" }
+        {% endif %}
+            ];
+
+        const bookingModalEl = document.getElementById('bookingModal');
+        const bookingModal = new bootstrap.Modal(bookingModalEl);
+        const modalLocationName = document.getElementById('modalLocationName');
+        const modalPrice = document.getElementById('modalPrice');
+        const photographerName = document.getElementById('photographerName');
+        const photographerImage = document.getElementById('photographerImage');
+        const confirmBtn = document.getElementById('confirmBookingBtn');
+        const selectButtons = document.querySelectorAll('.select-btn');
+
+        selectButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const locationName = this.getAttribute('data-name');
+                const locationPrice = this.getAttribute('data-price');
+                modalLocationName.textContent = locationName;
+                modalPrice.textContent = locationPrice;
+
+                // Randomly select a photographer from the list
+                const randomIndex = Math.floor(Math.random() * photographers.length);
+                const selectedPhotographer = photographers[randomIndex];
+
+                photographerName.textContent = selectedPhotographer.name;
+                // Ensure image path is correct
+                photographerImage.src = "{{ url_for('static', filename='images/') }}" + "photographer_placeholder.jpg";
+                bookingModal.show();
+            });
+        });
+
+        // Handle Confirm Click
+        confirmBtn.addEventListener('click', function () {
+            const bookingData = {
+                location_name: modalLocationName.textContent,
+                price: modalPrice.textContent.replace('₹', '').trim(), // Clean price
+                photographer: photographerName.textContent
+            };
+
+            fetch('/save_photoshoot_booking', { // Updated Route
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.href = "{{ url_for('onlinepay') }}";
+                    } else {
+                        alert('Error saving booking. Please login again.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+        });
+    </script>
+</body>
+
+</html>

@@ -33,7 +33,7 @@ Kem Chho Ahmedabad is a full-stack web application designed to help users explor
 ⭐ Driver Rating & Ride Tracking
 📱 Responsive Web Interface
 
-📂 Project Structure
+# Project Structure
 ```text
 Kem-Chho-Ahmedabad/
 │

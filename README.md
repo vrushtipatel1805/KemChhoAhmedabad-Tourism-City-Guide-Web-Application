@@ -16,21 +16,37 @@ Kem Chho Ahmedabad is a full-stack web application designed to help users explor
 
 # Key Features
 👤 User Registration & Login
+
 🔐 Role-based Login
+
 📍 Explore Ahmedabad Tourist Locations
+
 📸 Photographer Search & Booking
+
 📷 Photoshoot Package Selection
+
 🚗 Local Ride Booking
+
 👨‍💼 Driver Management
+
 📅 Photoshoot & Ride Booking Management
+
 💳 Payment Management
+
 🧾 Transaction ID Generation
+
 📊 Admin Dashboard
+
 👥 User Management
+
 📸 Photographer Management
+
 🚘 Driver Management
+
 🔄 Booking Status Tracking
+
 ⭐ Driver Rating & Ride Tracking
+
 📱 Responsive Web Interface
 
 # Project Structure

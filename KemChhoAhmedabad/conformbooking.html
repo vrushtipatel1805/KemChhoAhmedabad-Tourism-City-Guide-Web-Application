@@ -1,0 +1,365 @@
+<!-- conformbooking.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | Kem Chho Ahmedabad</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --kc-teal-dark: #00627b;
+            --kc-teal-light: #008c9e;
+            --kc-accent-orange: #ff6b35;
+            --kc-bg-soft: #f4fbfd;
+            --text-main: #2d3436;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--kc-bg-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .booking-card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 98, 123, 0.15);
+            text-align: center;
+            animation: popUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #e3f9e5;
+            color: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.2);
+            animation: bounce 0.6s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--kc-teal-dark);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .journey-details {
+            text-align: left;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .detail-row.total {
+            border-top: 2px dashed #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--kc-teal-dark);
+        }
+
+        .stops-list {
+            margin: 10px 0;
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .stops-list li {
+            margin-bottom: 5px;
+        }
+
+        .btn-home {
+            background: var(--kc-teal-dark);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 98, 123, 0.3);
+        }
+
+        .btn-home:hover {
+            background: var(--kc-teal-light);
+            transform: translateY(-3px);
+        }
+
+        /* Status Styles */
+        .status-box {
+            background: #fff9e6;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            transition: 0.3s;
+        }
+
+        .status-box.confirmed {
+            background: #e6fffa;
+            border-color: #2ecc71;
+        }
+
+        .status-box.rejected {
+            background: #fff5f5;
+            border-color: #e74c3c;
+        }
+
+        .driver-info {
+            display: none;
+            background: #f0f7f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: left;
+            border-left: 4px solid var(--kc-teal-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="booking-card">
+        <div class="success-icon"><i class="fas fa-check"></i></div>
+
+        {% if booking.type == 'photoshoot' %}
+        <div id="shoot-status-section">
+            <h1 class="title" id="s-title">Request Submitted</h1>
+            <p class="subtitle" id="s-subtitle">Waiting for photographer approval...</p>
+
+            <div id="s-status-box" class="status-box">
+                <i class="fas fa-spinner fa-spin text-warning me-2"></i>
+                <strong>Pending Approval</strong>
+            </div>
+
+            <div id="photographer-details" class="driver-info">
+                <h6 class="fw-bold mb-2"><i class="fas fa-camera me-2"></i>Photographer Assigned</h6>
+                <div class="d-flex justify-content-between"><small>Name:</small> <span class="fw-bold"
+                        id="p-name">--</span></div>
+                <div class="d-flex justify-content-between"><small>Phone:</small> <span class="fw-bold"
+                        id="p-phone">--</span></div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Ride Status Section -->
+        <div id="ride-status-section">
+            <h1 class="title" id="status-title">Booking Submitted</h1>
+            <p class="subtitle" id="status-subtitle">Waiting for driver approval...</p>
+
+            <div id="status-box" class="status-box">
+                <i class="fas fa-spinner fa-spin text-warning me-2"></i>
+                <strong>Finding a driver...</strong>
+            </div>
+
+            <div id="driver-details" class="driver-info">
+                <h6 class="fw-bold mb-2"><i class="fas fa-taxi me-2"></i>Driver Assigned</h6>
+                <div class="d-flex justify-content-between"><small>Name:</small> <span class="fw-bold"
+                        id="d-name">--</span></div>
+                <div class="d-flex justify-content-between"><small>Vehicle:</small> <span class="fw-bold"
+                        id="d-car">--</span></div>
+                <div class="d-flex justify-content-between"><small>Phone:</small> <span class="fw-bold"
+                        id="d-phone">--</span></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="journey-details">
+            {% if booking.type == 'photoshoot' %}
+            <div class="detail-row">
+                <span class="text-muted"><i class="fas fa-camera text-primary me-2"></i>Location</span>
+                <span style="font-weight: 600;">{{ booking.location_name }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted"><i class="fas fa-user-tie text-info me-2"></i>Photographer</span>
+                <span>{{ booking.photographer }}</span>
+            </div>
+            <div class="detail-row" style="align-items: flex-start;">
+                <span class="text-muted"><i class="fas fa-star text-warning me-2"></i>Package</span>
+                <ul class="stops-list" style="margin: 0; padding-left: 0; list-style: none; text-align: right;">
+                    {% for item in booking.package_includes %}
+                    <li><small>{{ item }}</small></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% else %}
+            <div class="detail-row">
+                <span class="text-muted"><i class="fas fa-map-marker-alt text-primary me-2"></i>Pickup</span>
+                <span style="max-width: 200px; text-align: right;">{{ booking.start_location }}</span>
+            </div>
+            <div class="detail-row" style="align-items: flex-start;">
+                <span class="text-muted"><i class="fas fa-route text-warning me-2"></i>Stops</span>
+                <ul class="stops-list" style="margin: 0; padding-left: 0; list-style: none; text-align: right;">
+                    <li>{{ booking.stops }}</li> <!-- Simple fix if list issue -->
+                </ul>
+            </div>
+            <div class="detail-row">
+                <span class="text-muted"><i class="fas fa-road text-info me-2"></i>Total Distance</span>
+                <span>{{ booking.distance }}</span>
+            </div>
+            {% endif %}
+
+            <div class="detail-row total">
+                <span>Amount Paid</span>
+                <span style="color: var(--kc-accent-orange);">
+                    {% if booking.type == 'photoshoot' %}
+                    ₹{{ booking.price }}
+                    {% else %}
+                    {{ booking.price }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn-home">Back to Home</a>
+    </div>
+
+    <!-- Polling Script -->
+    <script>
+        const bookingType = "{{ booking.type }}";
+        const bookingId = "{{ booking.id }}"; // Passed from backend (ride.id or shoot.id, ensured in app.py)
+
+        if (bookingType === 'ride' && bookingId && bookingId !== 'None') {
+            const statusBox = document.getElementById('status-box');
+            const statusTitle = document.getElementById('status-title');
+            const statusSubtitle = document.getElementById('status-subtitle');
+            const driverDetails = document.getElementById('driver-details');
+            const successIcon = document.querySelector('.success-icon');
+
+            const pollInterval = setInterval(() => {
+                fetch(`/api/ride_status/${bookingId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'ACCEPTED' || data.status === 'ONGOING' || data.status === 'CONFIRMED') {
+                            clearInterval(pollInterval);
+                            statusBox.className = 'status-box confirmed';
+                            statusBox.innerHTML = '<i class="fas fa-check-circle text-success me-2"></i> <strong>Ride Confirmed!</strong>';
+                            statusTitle.innerText = "Driver is on the way!";
+                            statusSubtitle.innerText = "Your ride request has been accepted.";
+
+                            if (data.driver) {
+                                document.getElementById('d-name').innerText = data.driver.name;
+                                document.getElementById('d-car').innerText = `${data.driver.car_model} (${data.driver.car_number})`;
+                                document.getElementById('d-phone').innerText = data.driver.phone;
+                                driverDetails.style.display = 'block';
+                            }
+                        } else if (data.status === 'REJECTED') {
+                            clearInterval(pollInterval);
+                            statusBox.className = 'status-box rejected';
+                            statusBox.innerHTML = '<i class="fas fa-times-circle text-danger me-2"></i> <strong>Ride Declined</strong>';
+                            statusTitle.innerText = "Booking Failed";
+                            statusSubtitle.innerText = "The driver declined the request.";
+                            successIcon.style.background = '#ffebee';
+                            successIcon.style.color = '#e74c3c';
+                            successIcon.innerHTML = '<i class="fas fa-times"></i>';
+                        }
+                    });
+            }, 3000);
+        }
+        else if (bookingType === 'photoshoot' && bookingId && bookingId !== 'None') {
+            const sBox = document.getElementById('s-status-box');
+            const sTitle = document.getElementById('s-title');
+            const sSubtitle = document.getElementById('s-subtitle');
+            const pDetails = document.getElementById('photographer-details');
+            const successIcon = document.querySelector('.success-icon');
+
+            const pollInterval = setInterval(() => {
+                fetch(`/api/shoot_status/${bookingId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'CONFIRMED' || data.status === 'COMPLETED') {
+                            clearInterval(pollInterval);
+                            sBox.className = 'status-box confirmed';
+                            sBox.innerHTML = '<i class="fas fa-check-circle text-success me-2"></i> <strong>Photoshoot Confirmed!</strong>';
+                            sTitle.innerText = "Get Ready!";
+                            sSubtitle.innerText = "Your photographer has accepted the request.";
+
+                            if (data.photographer) {
+                                document.getElementById('p-name').innerText = data.photographer.name;
+                                document.getElementById('p-phone').innerText = data.photographer.phone;
+                                pDetails.style.display = 'block';
+                            }
+                        } else if (data.status === 'WAITING_FOR_PHOTOGRAPHER') {
+                            sBox.className = 'status-box';
+                            sBox.style.borderColor = '#3498db';
+                            sBox.style.background = '#ebf8ff';
+                            sBox.innerHTML = '<i class="fas fa-user-clock text-primary me-2"></i> <strong>Waiting for Photographer...</strong>';
+                            sTitle.innerText = "Admin Approved";
+                            sSubtitle.innerText = "We are connecting you to a photographer.";
+                        } else if (data.status === 'REJECTED') {
+                            clearInterval(pollInterval);
+                            sBox.className = 'status-box rejected';
+                            sBox.innerHTML = '<i class="fas fa-times-circle text-danger me-2"></i> <strong>Request Declined</strong>';
+                            sTitle.innerText = "Booking Failed";
+                            sSubtitle.innerText = "The photographer declined the request.";
+                            successIcon.style.background = '#ffebee';
+                            successIcon.style.color = '#e74c3c';
+                            successIcon.innerHTML = '<i class="fas fa-times"></i>';
+                        }
+                    });
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,787 @@
+<!-- customise.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kem Chho Ahmedabad! | Smart City Tour</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <style>
+        :root {
+            --kc-teal-dark: #00627b;
+            --kc-teal-light: #008c9e;
+            --kc-accent-orange: #ff6b35;
+            --kc-bg-soft: #f4fbfd;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --white-glass: rgba(255, 255, 255, 0.90);
+            --white-glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-card: 0 15px 35px rgba(0, 98, 123, 0.1);
+            --shadow-float: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--kc-bg-soft);
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 98, 123, 0.05) 0%, transparent 20%);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .navbar-custom {
+            background: var(--white-glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--white-glass-border);
+            height: 70px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            z-index: 1050;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--kc-teal-dark) !important;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon-box {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--kc-teal-dark), var(--kc-teal-light));
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0, 98, 123, 0.3);
+        }
+
+        .account-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 98, 123, 0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--kc-teal-dark);
+            font-weight: 500;
+        }
+
+        .logout-link {
+            color: var(--kc-accent-orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .main-layout {
+            height: calc(100vh - 70px);
+            display: flex;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 420px;
+            background: var(--white-glass);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--kc-teal-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1.2px;
+            border-bottom: 2px solid rgba(0, 98, 123, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .gps-input-group {
+            background: white;
+            border-radius: 16px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .gps-input-group:focus-within {
+            border-color: var(--kc-teal-dark);
+            box-shadow: 0 4px 20px rgba(0, 98, 123, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .place-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .place-item:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 10px 25px rgba(0, 98, 123, 0.1);
+            border-color: rgba(0, 98, 123, 0.2);
+        }
+
+        .place-item input[type="checkbox"] {
+            accent-color: var(--kc-accent-orange);
+            width: 18px;
+            height: 18px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .place-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: var(--kc-accent-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+
+        .place-content {
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .place-item:has(input:checked) {
+            background: linear-gradient(to right, #fff, #fef9f5);
+            border-color: var(--kc-accent-orange);
+        }
+
+        .place-item:has(input:checked) .place-icon {
+            background: var(--kc-accent-orange);
+            color: white;
+            transform: rotate(10deg);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--kc-teal-dark) 0%, var(--kc-teal-light) 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 50px;
+            width: 100%;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px rgba(0, 98, 123, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 98, 123, 0.4);
+            color: white;
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .map-container {
+            flex-grow: 1;
+            position: relative;
+            background: #e5e9ec;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .route-card {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 20px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            z-index: 1000;
+            min-width: 600px;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .route-card.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .info-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-stat h3 {
+            font-weight: 800;
+            color: var(--kc-teal-dark);
+            margin: 0;
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .fare-amount {
+            color: var(--kc-accent-orange) !important;
+        }
+
+        .info-stat span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .vertical-divider {
+            width: 1px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-close-custom {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #fff0f0;
+            color: #ff4757;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-close-custom:hover {
+            background: #ff4757;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .loader-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .car-loader {
+            font-size: 3rem;
+            color: var(--kc-accent-orange);
+            filter: drop-shadow(0 10px 10px rgba(255, 107, 53, 0.3));
+            animation: drive 1.5s infinite ease-in-out;
+        }
+
+        @keyframes drive {
+            0% {
+                transform: translateX(-20px) scale(1);
+            }
+
+            50% {
+                transform: translateX(20px) scale(1.1);
+            }
+
+            100% {
+                transform: translateX(-20px) scale(1);
+            }
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--kc-teal-dark);
+            font-size: 0.9rem;
+        }
+
+        .leaflet-routing-container {
+            display: none !important;
+        }
+
+        .animated-route {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: drawRoute 2.5s ease-out forwards;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));
+        }
+
+        @keyframes drawRoute {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .css-icon {
+            text-align: center;
+        }
+
+        .dest-marker {
+            text-align: center;
+        }
+
+        /* --- NEW: PAYMENT MODAL STYLES --- */
+        .payment-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 40, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .payment-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .payment-card {
+            background: white;
+            width: 400px;
+            padding: 30px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .payment-modal-overlay.active .payment-card {
+            transform: scale(1);
+        }
+
+        .payment-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--kc-teal-dark);
+            margin-bottom: 20px;
+        }
+
+        .pay-option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pay-option-btn:hover {
+            border-color: var(--kc-accent-orange);
+            background: #fff8f5;
+            transform: translateX(5px);
+        }
+
+        .pay-option-btn i {
+            font-size: 1.2rem;
+            color: var(--kc-teal-light);
+        }
+
+        .btn-confirm-ride {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+            transition: 0.3s;
+            margin-left: 20px;
+        }
+
+        .btn-confirm-ride:hover {
+            background: #219150;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+                padding: 20px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .map-container {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .route-card {
+                min-width: 90%;
+                bottom: 20px;
+                padding: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .info-stat h3 {
+                font-size: 1.3rem;
+            }
+
+            .navbar-brand span {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loader-overlay" id="loader">
+        <i class="fas fa-taxi car-loader"></i>
+        <div class="loading-text">CALCULATING FARE...</div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <div class="brand-icon-box">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div>Kem Chho <span>Ahmedabad!</span></div>
+            </a>
+
+            <div class="d-flex align-items-center">
+                <div class="account-box">
+                    <i class="fas fa-user-circle"></i> {{ username }}
+                    <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-layout">
+        <div class="sidebar">
+            <div class="mb-4">
+                <div class="section-header"><i class="fas fa-map-marker-alt"></i> Pickup Point</div>
+                <div class="gps-input-group d-flex align-items-center">
+                    <div class="p-3 text-muted"><i class="fas fa-crosshairs"></i></div>
+                    <input type="text" id="start-location" class="form-control border-0 shadow-none ps-0"
+                        placeholder="Enter pickup location..." style="font-weight: 500; color: var(--kc-teal-dark);">
+                </div>
+                <small class="text-muted mt-2 d-block ms-2" style="font-size: 0.75rem;"><i
+                        class="fas fa-info-circle me-1"></i> Trips start and end at this location.</small>
+            </div>
+
+            <div class="mb-auto">
+                <div class="section-header"><i class="fas fa-location-dot"></i> Select Destinations</div>
+                <div id="places-list" style="padding-bottom: 20px;"></div>
+            </div>
+
+            <div class="mt-3 bg-white p-3 rounded-4 shadow-sm" style="position: sticky; bottom: 0;">
+                <div id="live-calc" class="text-center mb-2 small fw-bold text-muted"
+                    style="opacity: 0; transition: 0.3s;">
+                    <i class="fas fa-sync fa-spin me-1"></i> Optimizing Route...
+                </div>
+                <button class="btn-premium ripple-btn" onclick="calculateRoute()">
+                    Calculate Fare <i class="fas fa-calculator ms-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="route-card" id="summary-card">
+                <div class="info-stat">
+                    <h3 id="stat-dist">0 km</h3><span>Distance</span>
+                </div>
+                <div class="vertical-divider"></div>
+                <div class="info-stat">
+                    <h3 id="stat-time">0 min</h3><span>Time</span>
+                </div>
+                <div class="vertical-divider"></div>
+                <div class="info-stat">
+                    <h3 id="stat-fare" class="fare-amount">₹0</h3><span>Est. Fare</span>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <button class="btn-close-custom shadow-sm" onclick="resetMap()" title="Clear Route"><i
+                            class="fas fa-times"></i></button>
+                    <button class="btn-confirm-ride ripple-btn" onclick="openPaymentModal()">
+                        Book Now <i class="fas fa-check-circle ms-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="payment-modal-overlay" id="paymentModal" onclick="closePaymentModal(event)">
+        <div class="payment-card">
+            <h2 class="payment-title">Select Payment</h2>
+            <p class="text-muted mb-4">How would you like to pay for your ride?</p>
+
+            <button class="pay-option-btn ripple-btn" onclick="processPayment('cash')">
+                <span><i class="fas fa-money-bill-wave me-2 text-success"></i> Cash Payment</span>
+                <i class="fas fa-chevron-right text-muted"></i>
+            </button>
+
+            <button class="pay-option-btn ripple-btn" onclick="processPayment('online')">
+                <span><i class="fas fa-credit-card me-2 text-primary"></i> Pay Online</span>
+                <i class="fas fa-chevron-right text-muted"></i>
+            </button>
+
+            <button class="btn btn-link text-muted mt-3" style="text-decoration: none;"
+                onclick="document.getElementById('paymentModal').classList.remove('active')">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        const placesDB = [
+            { name: "Sabarmati Riverfront", lat: 23.0336, lng: 72.5727, icon: "fa-water" },
+            { name: "Kankaria Lake", lat: 23.0063, lng: 72.6011, icon: "fa-fish" },
+            { name: "Gandhi Ashram", lat: 23.0606, lng: 72.5808, icon: "fa-glasses" },
+            { name: "Science City", lat: 23.0789, lng: 72.4969, icon: "fa-atom" },
+            { name: "Law Garden", lat: 23.0266, lng: 72.5574, icon: "fa-tree" },
+            { name: "Adalaj Stepwell", lat: 23.1667, lng: 72.5801, icon: "fa-monument" }
+        ];
+
+        let map, routingControl, userPos = { lat: 23.0225, lng: 72.5714 }, userMarker = null, destMarkers = [];
+
+        // --- NEW: Trip Data Object ---
+        let currentTripData = { stops: [], distance: "", duration: "", price: "" };
+
+        window.onload = () => { initMap(); renderPlaces(); locateUser(); initRipple(); };
+
+        function initMap() { map = L.map('map', { zoomControl: false }).setView([userPos.lat, userPos.lng], 13); L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 }).addTo(map); L.control.zoom({ position: 'topright' }).addTo(map); }
+        function renderPlaces() { const list = document.getElementById('places-list'); placesDB.forEach((place, index) => { const item = document.createElement('label'); item.className = 'place-item'; item.innerHTML = `<input type="checkbox" value="${index}" onchange="autoUpdateRoute()"><div class="place-icon"><i class="fas ${place.icon}"></i></div><div class="place-content"><div>${place.name}</div><div style="font-size:0.75rem; color:#999; font-weight:400;">Tap to select</div></div>`; list.appendChild(item); }); }
+        function locateUser() {
+            const input = document.getElementById('start-location');
+            input.value = "Locating GPS...";
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+                    // Reverse Geocoding via Nominatim
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${userPos.lat}&lon=${userPos.lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.display_name) {
+                                // Shorten address to first 3 parts for readability
+                                let parts = data.display_name.split(', ');
+                                input.value = parts.slice(0, 3).join(', ');
+                            } else {
+                                input.value = "Current Location (GPS Active)";
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Geocoding failed:", err);
+                            input.value = "Address lookup failed. Type manually.";
+                            // Fallback to coordinates so we know it tried
+                            // input.value = `${userPos.lat.toFixed(4)}, ${userPos.lng.toFixed(4)}`;
+                        });
+
+                    if (userMarker) map.removeLayer(userMarker);
+                    const pulseIcon = L.divIcon({ className: 'css-icon', html: `<div style="width:20px; height:20px; background:#00627b; border-radius:50%; border:3px solid white; box-shadow:0 0 0 5px rgba(0,98,123,0.2);"></div>`, iconSize: [20, 20], iconAnchor: [10, 10] });
+                    userMarker = L.marker([userPos.lat, userPos.lng], { icon: pulseIcon }).addTo(map).bindPopup("<b>Start Point</b>").openPopup();
+                    map.flyTo([userPos.lat, userPos.lng], 14, { duration: 1.5 });
+                }, () => { input.value = "Ahmedabad Center (Default)"; });
+            }
+        }
+        let debounceTimer;
+        function autoUpdateRoute() { document.getElementById('live-calc').style.opacity = '1'; clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { calculateRoute(); document.getElementById('live-calc').style.opacity = '0'; }, 1200); }
+
+        function calculateRoute() {
+            const checkboxes = document.querySelectorAll('.place-item input:checked');
+            if (checkboxes.length === 0) { resetMap(); return; }
+
+            // --- Capture Data ---
+            currentTripData.stops = Array.from(checkboxes).map(box => placesDB[box.value].name);
+
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('summary-card').classList.remove('show');
+
+            if (routingControl) { map.removeControl(routingControl); routingControl = null; }
+            destMarkers.forEach(m => map.removeLayer(m));
+            destMarkers = [];
+
+            let selectedPlaces = Array.from(checkboxes).map(box => placesDB[box.value]);
+            let orderedWaypoints = [L.latLng(userPos.lat, userPos.lng)];
+            let currentRef = userPos;
+            let unvisited = [...selectedPlaces];
+
+            while (unvisited.length > 0) {
+                let nearestIdx = 0; let minDist = Infinity;
+                for (let i = 0; i < unvisited.length; i++) {
+                    let d = Math.sqrt(Math.pow(unvisited[i].lat - currentRef.lat, 2) + Math.pow(unvisited[i].lng - currentRef.lng, 2));
+                    if (d < minDist) { minDist = d; nearestIdx = i; }
+                }
+                let nextStop = unvisited.splice(nearestIdx, 1)[0];
+                orderedWaypoints.push(L.latLng(nextStop.lat, nextStop.lng));
+                currentRef = nextStop;
+            }
+            orderedWaypoints.push(L.latLng(userPos.lat, userPos.lng));
+
+            routingControl = L.Routing.control({
+                waypoints: orderedWaypoints,
+                routeWhileDragging: false, show: false, addWaypoints: false, draggableWaypoints: false,
+                lineOptions: { styles: [{ color: '#ff6b35', opacity: 0.8, weight: 6, className: 'animated-route' }, { color: 'white', opacity: 0.3, weight: 2, dashArray: '10,10' }] },
+                createMarker: function (i, wp) { if (i === 0 || i === orderedWaypoints.length - 1) return null; return L.marker(wp.latLng, { icon: L.divIcon({ className: 'dest-marker', html: `<i class="fas fa-map-pin fa-2x" style="color: #ff6b35; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); transform: translateY(-20px);"></i>`, iconSize: [30, 40], iconAnchor: [15, 40] }) }); }
+            }).addTo(map);
+
+            routingControl.on('routesfound', function (e) {
+                const summary = e.routes[0].summary;
+                const distanceKm = (summary.totalDistance / 1000).toFixed(1);
+                const drivingTimeMin = Math.round(summary.totalTime / 60);
+                const estimatedFare = Math.round(distanceKm * 20);
+
+                // --- Store data ---
+                currentTripData.distance = `${distanceKm} km`;
+                currentTripData.duration = formatTime(drivingTimeMin);
+                currentTripData.price = `₹${estimatedFare}`;
+
+                document.getElementById('stat-dist').innerText = currentTripData.distance;
+                document.getElementById('stat-time').innerText = currentTripData.duration;
+                document.getElementById('stat-fare').innerText = currentTripData.price;
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('summary-card').classList.add('show');
+            });
+            routingControl.on('routingerror', function () { alert("Routing failed."); document.getElementById('loader').style.display = 'none'; });
+        }
+
+        function resetMap() { if (routingControl) { map.removeControl(routingControl); routingControl = null; } document.getElementById('summary-card').classList.remove('show'); document.querySelectorAll('.place-item input').forEach(el => el.checked = false); map.flyTo([userPos.lat, userPos.lng], 13); }
+        function formatTime(m) { const h = Math.floor(m / 60); const min = m % 60; return h > 0 ? `${h}h ${min}m` : `${min} min`; }
+        function initRipple() { document.querySelectorAll('.ripple-btn').forEach(btn => { btn.addEventListener('click', function (e) { let x = e.clientX - rect.left; let y = e.clientY - rect.top; let ripple = document.createElement('span'); ripple.classList.add('ripple'); ripple.style.left = x + 'px'; ripple.style.top = y + 'px'; this.appendChild(ripple); setTimeout(() => { ripple.remove(); }, 600); }); }); }
+
+        // --- NEW: MODAL LOGIC ---
+        function openPaymentModal() { document.getElementById('paymentModal').classList.add('active'); }
+        function closePaymentModal(e) { if (e.target === document.getElementById('paymentModal')) { document.getElementById('paymentModal').classList.remove('active'); } }
+
+        // --- NEW: PROCESS PAYMENT LOGIC ---
+        function processPayment(type) {
+            fetch('/save_booking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    start: document.getElementById('start-location').value,
+                    stops: currentTripData.stops,
+                    distance: currentTripData.distance,
+                    duration: currentTripData.duration,
+                    price: currentTripData.price
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        if (type === 'cash') { window.location.href = "{{ url_for('conformbooking') }}"; }
+                        else { window.location.href = "{{ url_for('onlinepay') }}"; }
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,739 @@
+<!-- Ahmedabad_info_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmedabad Heritage | Premium Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ... existing styles ... */
+        :root {
+            --vq-teal-50: #f1fcff;
+            --vq-teal-100: #c1dde5;
+            --vq-teal-200: #91beca;
+            --vq-teal-300: #60a0b0;
+            --vq-teal-400: #308195;
+            --vq-teal-500: #00627b;
+            --vq-teal-600: #035367;
+            --vq-teal-700: #054554;
+            --primary-color: var(--vq-teal-500);
+            --primary-hover: var(--vq-teal-600);
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --bg-body: #f4f7f6;
+            /* Slightly warmer gray for premium feel */
+            --bg-card: #ffffff;
+            --text-main: var(--vq-teal-700);
+            --shadow-soft: 0 10px 30px -5px rgba(0, 98, 123, 0.08);
+            /* Softer shadow */
+            --shadow-hover: 0 25px 50px -10px rgba(0, 98, 123, 0.25);
+            --glow-border: 0 0 0 1px rgba(0, 98, 123, 0.05);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+            animation: fadeInPage 1s ease-out;
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--vq-teal-600), var(--vq-teal-400));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--vq-teal-600);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .account-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: #f1f3f5;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .account-box:hover {
+            background: #e9ecef;
+        }
+
+        .logout-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 20px 0;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-soft), var(--glow-border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .card:hover img {
+            transform: scale(1.15);
+        }
+
+        .card-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        .btn-grad {
+            position: relative;
+            background: linear-gradient(135deg, var(--vq-teal-500), var(--vq-teal-400));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            /* Less rounded for modern look */
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 98, 123, 0.25);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn-grad:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 98, 123, 0.4);
+            background: linear-gradient(135deg, var(--vq-teal-600), var(--vq-teal-500));
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 30, 0.75);
+            /* Darker overlay */
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 30px;
+            overflow: hidden;
+            transform: scale(0.9) translateY(30px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Bouncy effect */
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-body h2 {
+            color: var(--vq-teal-600);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .modal-body p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            background: var(--vq-teal-500);
+            color: white;
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .modal-image {
+                height: 250px;
+            }
+
+            .modal-body {
+                padding: 25px;
+            }
+
+            .modal-body h2 {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">Kem Chho Ahmedabad!</a>
+        <div class="nav-items">
+            <div class="account-box">
+                <span><i class="fa-solid fa-user-circle"></i> {{ username }}</span>
+                <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Discover Ahmedabad</h1>
+        <p>Explore the timeless heritage, culture, and modern marvels of India's first World Heritage City.</p>
+    </header>
+
+    <div class="container">
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Adalaj stepWell.jpg') }}" alt="Adalaj Stepwell"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Adalaj Stepwell</h3>
+                    <p>A stunning architectural marvel near Ahmedabad, known for its intricate carvings and deep
+                        historical significance.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal1')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Auto World Vintage Car Museum.jpg') }}"
+                        alt="Vintage Car Museum" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Vintage Car Museum</h3>
+                    <p>A massive 2,200-acre private collection featuring over 100 rare, functional vintage cars
+                        including Rolls-Royces.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal2')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Bhadra Fort Teen Darwaza.jpg') }}" alt="Bhadra Fort"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Bhadra Fort</h3>
+                    <p>Built in 1411 by Sultan Ahmad Shah, this historic 43-acre citadel features stunning
+                        Indo-Saracenic architecture.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal3')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Calico Museum of Texttiles.jpg') }}"
+                        alt="Calico Museum" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Calico Museum</h3>
+                    <p>A premier institution globally renowned for its comprehensive collection of historic and antique
+                        Indian textiles.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal4')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Dada Hari ni Vav.jpg') }}" alt="Dada Hari ni Vav"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Dada Hari ni Vav</h3>
+                    <p>A 500-year-old, five-story stepwell built in 1499 AD, famous for its elaborate stone carvings and
+                        cool depths.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal5')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Kankaria Lake.jpg') }}" alt="Kankaria Lake"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Kankaria Lake</h3>
+                    <p>A popular recreational destination featuring boating, a zoo, toy trains, and spectacular evening
+                        light shows.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal6')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Open Air Theater.jpg') }}" alt="Open Air Theater"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Open Air Theater</h3>
+                    <p>An expansive outdoor performance space designed for live shows like dramas, music, dance, and
+                        cultural events.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal7')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Riverfront.jpg') }}" alt="Riverfront" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Sabarmati Riverfront</h3>
+                    <p>A modern urban development along the river featuring promenades, gardens, and vibrant public
+                        spaces.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal8')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Sabarmati Ashram.jpg') }}" alt="Sabarmati Ashram"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Sabarmati Ashram</h3>
+                    <p>The historic residence of Mahatma Gandhi. It serves as a museum preserving his life, ideals, and
+                        teachings.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal9')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Sardar Vallabhbhai Patel Museum.jpg') }}"
+                        alt="SVP Museum" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Sardar Patel Museum</h3>
+                    <p>Dedicated to the Iron Man of India, showcasing his role in India's struggle for freedom and
+                        integration.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal10')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Science City.jpg') }}" alt="Science City"
+                        loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Science City</h3>
+                    <p>An educational and recreational center with interactive exhibits, an IMAX theater, and robotics
+                        galleries.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal11')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Sidi Saiyyed Museum.jpg') }}"
+                        alt="Sidi Saiyyed Mosque" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Sidi Saiyyed Mosque</h3>
+                    <p>Famous for its beautifully carved stone lattice windows (Jali), depicting the intricate "Tree of
+                        Life".</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal12')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="{{ url_for('serve_image', filename='Veechar Cultural and heritage Museum.jpg') }}"
+                        alt="Veechar Museum" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <h3>Veechar Museum</h3>
+                    <p>Showcases Gujarat’s rich cultural traditions, displaying artifacts, utensils, and tools
+                        reflecting regional life.</p>
+                    <div class="spacer"></div>
+                    <button class="btn-grad ripple-btn" onclick="openModal('modal13')">
+                        View Details <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="universalModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModalBtn()">&times;</button>
+            <img src="" alt="Detail Image" class="modal-image" id="modalImg">
+            <div class="modal-body">
+                <h2 id="modalTitle">Title</h2>
+                <p id="modalDesc">Description goes here...</p>
+                <a href="#" class="btn-grad" style="width: auto; display: inline-block;">Visit Official Site <i
+                        class="fa-solid fa-external-link-alt"></i></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const placeData = {
+            'modal1': {
+                title: 'Adalaj Stepwell',
+                img: "{{ url_for('serve_image', filename='Adalaj stepWell.jpg') }}",
+                desc: 'Adalaj Stepwell is a stunning architectural marvel located near Ahmedabad. Built in 1498 by Queen Rudabai, it is a five-story stepwell known for its intricate carvings and deep historical significance. It served as a resting place for travelers and a spiritual refuge.',
+                link: 'https://en.wikipedia.org/wiki/Adalaj_Stepwell'
+            },
+            'modal2': {
+                title: 'Vintage Car Museum',
+                img: "{{ url_for('serve_image', filename='Auto World Vintage Car Museum.jpg') }}",
+                desc: 'The Auto World Vintage Car Museum houses a massive collection of over 100 rare and vintage automobiles, including Rolls-Royces, Bentleys, and Daimlers. It is one of the largest personal collections of vintage cars in India.',
+                link: 'https://m.facebook.com/autoworldvintagecarmuseum/'
+            },
+            'modal3': {
+                title: 'Bhadra Fort',
+                img: "{{ url_for('serve_image', filename='Bhadra Fort Teen Darwaza.jpg') }}",
+                desc: 'Built in 1411 by Sultan Ahmad Shah, Bhadra Fort is a historic citadel featuring stunning Indo-Saracenic architecture. It houses a temple to Bhadra Kali and was the heart of the royal court during the Gujarat Sultanate.',
+                link: 'https://en.wikipedia.org/wiki/Bhadra_Fort'
+            },
+            'modal4': {
+                title: 'Calico Museum',
+                img: "{{ url_for('serve_image', filename='Calico Museum of Texttiles.jpg') }}",
+                desc: 'The Calico Museum of Textiles is a premier institution renowned globally for its comprehensive collection of historic and modern Indian textiles. It is managed by the Sarabhai Foundation.',
+                link: 'https://www.calicomuseum.org/'
+            },
+            'modal5': {
+                title: 'Dada Hari ni Vav',
+                img: "{{ url_for('serve_image', filename='Dada Hari ni Vav.jpg') }}",
+                desc: 'A 500-year-old, five-story stepwell built in 1499 AD. It is famous for its elaborate stone carvings and cool depths, offering a retreat during hot summers. The stepwell is a fine example of Gujarati architecture.',
+                link: 'https://en.wikipedia.org/wiki/Dada_Harir_Stepwell'
+            },
+            'modal6': {
+                title: 'Kankaria Lake',
+                img: "{{ url_for('serve_image', filename='Kankaria Lake.jpg') }}",
+                desc: 'Kankaria Lake is a popular recreational destination featuring boating, a zoo (Kamla Nehru Zoological Garden), toy trains (Atal Express), and spectacular evening light shows. It was constructed in 1451 by Sultan Qutb-ud-Din Ahmad Shah II.',
+                link: 'https://en.wikipedia.org/wiki/Kankaria_Lake'
+            },
+            'modal7': {
+                title: 'Open Air Theater',
+                img: "{{ url_for('serve_image', filename='Open Air Theater.jpg') }}",
+                desc: 'An expansive outdoor performance space designed for live shows like dramas, music, dance, and cultural events. It promotes the vibrant arts and culture scene of Ahmedabad.',
+                link: 'https://www.google.com/search?q=open+air+theater+ahmedabad'
+            },
+            'modal8': {
+                title: 'Sabarmati Riverfront',
+                img: "{{ url_for('serve_image', filename='Riverfront.jpg') }}",
+                desc: 'A modern urban development along the banks of the Sabarmati River. It features Promenades, beautiful gardens, and vibrant public spaces for recreation and fitness.',
+                link: 'https://sabarmatiriverfront.com/'
+            },
+            'modal9': {
+                title: 'Sabarmati Ashram',
+                img: "{{ url_for('serve_image', filename='Sabarmati Ashram.jpg') }}",
+                desc: 'The historic residence of Mahatma Gandhi from 1917 to 1930. It served as one of the main centers of the Indian freedom struggle. Today, it is a museum preserving his life, ideals, and teachings.',
+                link: 'https://gandhiashramsabarmati.org/'
+            },
+            'modal10': {
+                title: 'Sardar Patel Museum',
+                img: "{{ url_for('serve_image', filename='Sardar Vallabhbhai Patel Museum.jpg') }}",
+                desc: 'Dedicated to Sardar Vallabhbhai Patel, the Iron Man of India. This museum showcases his role in India\'s struggle for freedom and his monumental effort in integrating the princely states.',
+                link: 'https://www.sardarpatelmemorial.com/'
+            },
+            'modal11': {
+                title: 'Science City',
+                img: "{{ url_for('serve_image', filename='Science City.jpg') }}",
+                desc: 'An educational and recreational center with interactive exhibits, an IMAX theater, an aquatic gallery, a robotics gallery, and a nature park. It aims to popularize science among the masses.',
+                link: 'https://sciencecity.gujarat.gov.in/'
+            },
+            'modal12': {
+                title: 'Sidi Saiyyed Mosque',
+                img: "{{ url_for('serve_image', filename='Sidi Saiyyed Museum.jpg') }}",
+                desc: 'Built in 1573, this mosque is famous for its beautifully carved stone lattice windows (Jali), depicting the intricate "Tree of Life". It is an unofficial symbol of Ahmedabad.',
+                link: 'https://en.wikipedia.org/wiki/Sidi_Saiyyed_Mosque'
+            },
+            'modal13': {
+                title: 'Veechar Museum',
+                img: "{{ url_for('serve_image', filename='Veechar Cultural and heritage Museum.jpg') }}",
+                desc: 'The Veechar Cultural and Heritage Museum showcases Gujarat’s rich cultural traditions. It displays a vast collection of utensils, tools, and artifacts reflecting regional life.',
+                link: 'https://www.vishalla.com/veechar-utensils-museum.html'
+            }
+        };
+
+        const modalOverlay = document.getElementById('universalModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalLink = document.querySelector('.modal-body .btn-grad');
+
+        function openModal(id) {
+            const data = placeData[id];
+            if (data) {
+                modalImg.src = data.img;
+                modalTitle.innerText = data.title;
+                modalDesc.innerText = data.desc;
+                if (data.link) {
+                    modalLink.href = data.link;
+                    modalLink.style.display = 'inline-flex';
+                } else {
+                    modalLink.style.display = 'none';
+                }
+
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error('No data found for modal ID:', id);
+            }
+        }
+
+        function closeModal(e) {
+            if (e.target === modalOverlay) {
+                closeModalBtn();
+            }
+        }
+
+        function closeModalBtn() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Ripple Effect
+        document.querySelectorAll('.ripple-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                let x = e.clientX - e.target.getBoundingClientRect().left;
+                let y = e.clientY - e.target.getBoundingClientRect().top;
+                let ripples = document.createElement('span');
+                ripples.classList.add('ripple');
+                ripples.style.left = x + 'px';
+                ripples.style.top = y + 'px';
+                this.appendChild(ripples);
+                setTimeout(() => {
+                    ripples.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+
+</html>

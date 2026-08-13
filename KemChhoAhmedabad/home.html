@@ -1,0 +1,1125 @@
+<!--home.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kem Chho Ahmedabad | Premium City Guide</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vq-teal-50: #f1fcff;
+            --vq-teal-100: #c1dde5;
+            --vq-teal-200: #91beca;
+            --vq-teal-300: #60a0b0;
+            --vq-teal-400: #308195;
+            --vq-teal-500: #00627b;
+            --vq-teal-600: #035367;
+            --vq-teal-700: #054554;
+            --primary-color: var(--vq-teal-500);
+            --primary-hover: var(--vq-teal-600);
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #555555;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 20px 40px rgba(0, 98, 123, 0.15);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-body);
+        }
+
+        #p {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo,
+        .tile-title,
+        .section-tag {
+            font-family: var(--font-heading);
+        }
+
+        body {
+            background-color: var(--vq-teal-50);
+            overflow-x: hidden;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: transparent;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--vq-teal-100);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: color 0.3s;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--vq-teal-400);
+            transition: color 0.3s;
+        }
+
+        .navbar.scrolled .logo {
+            color: var(--text-dark);
+        }
+
+        .navbar.scrolled .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-light);
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .navbar.scrolled .nav-item {
+            color: var(--text-dark);
+        }
+
+        .navbar.scrolled .nav-item:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .navbar:not(.scrolled) .nav-item::after {
+            background-color: var(--vq-teal-200);
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        .btn-primary {
+            padding: 10px 24px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 98, 123, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: var(--primary-hover);
+            box-shadow: 0 6px 20px rgba(0, 98, 123, 0.4);
+        }
+
+        .account-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar.scrolled .account-box {
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            background: transparent;
+        }
+
+        .logout-link {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(5, 69, 84, 0.6));
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 800px;
+            padding: 20px;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s ease 0.4s;
+        }
+
+        .slide.active .content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .slide.active .content h1 {
+            animation: fadeInUp 0.8s ease-out both;
+            animation-delay: 0.3s;
+        }
+
+        .slide.active .content p {
+            animation: fadeInUp 0.8s ease-out both;
+            animation-delay: 0.5s;
+        }
+
+        .content h1 {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+            line-height: 1.1;
+        }
+
+        .content p {
+            font-size: 1.6rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-hero {
+            padding: 16px 40px;
+            border: 2px solid white;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-hero:hover {
+            background: white;
+            color: var(--vq-teal-600);
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .arrow:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .left-arrow {
+            left: 30px;
+        }
+
+        .right-arrow {
+            right: 30px;
+        }
+
+        .indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--vq-teal-200);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(145, 190, 202, 0.5);
+        }
+
+        .about-section {
+            padding: 100px 0 60px 0;
+            background-color: white;
+            position: relative;
+        }
+
+        .about-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-text {
+            flex: 1;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: var(--transition);
+        }
+
+        .fade-in-active {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .section-tag {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            font-weight: 70;
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .about-text h2 {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .stat-item span {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--vq-teal-200);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .services-section {
+            padding: 40px 0 120px 0;
+            background-color: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .tile-card {
+            position: relative;
+            height: 320px;
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            background-color: var(--vq-teal-100);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .tile-card:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .tile-card:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .tile-card:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .tile-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .tile-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 1;
+            transition: background 0.4s ease;
+        }
+
+        .tile-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transform: translateY(0);
+            transition: transform 0.4s ease;
+            align-items: center;
+            text-align: center;
+        }
+
+        .tile-icon {
+            font-size: 2rem;
+            color: var(--vq-teal-200);
+            margin-bottom: 10px;
+            transition: transform 0.4s ease, color 0.4s ease;
+        }
+
+        .tile-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.5px;
+        }
+
+        .tile-cta {
+            color: var(--vq-teal-100);
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.8;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .tile-card:hover {
+            animation-play-state: paused;
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 98, 123, 0.3);
+        }
+
+        .tile-card:hover .tile-bg {
+            transform: scale(1.1);
+        }
+
+        .tile-card:hover .tile-overlay {
+            background: transparent;
+        }
+
+        .tile-card:hover .tile-icon {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .tile-card:hover .tile-cta {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .tile-card:hover .tile-content {
+            transform: translateY(-5px);
+        }
+
+        .tile-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            z-index: 3;
+            pointer-events: none;
+            transition: none;
+        }
+
+        .tile-card:hover::after {
+            animation: shine 0.8s;
+        }
+
+        @keyframes shine {
+            100% {
+                left: 125%;
+            }
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: rippleAnim 0.6s linear;
+            z-index: 4;
+        }
+
+        @keyframes rippleAnim {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+
+            100% {
+                width: 600px;
+                height: 600px;
+                opacity: 0;
+            }
+        }
+
+        /* --- New Animations --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        @keyframes float-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .float-animate {
+            animation: float-bounce 4s ease-in-out infinite;
+        }
+
+        /* Staggered delays for text */
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .footer-section {
+            background-color: rgb(0, 0, 0);
+            padding: 80px 0 30px 0;
+            border-top: 1px solid var(--vq-teal-100);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--primary-color);
+        }
+
+        .footer-desc {
+            color: white;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: rgb(128, 128, 128);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .social-links-vertical i {
+            width: 20px;
+            text-align: center;
+            color: var(--vq-teal-500);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            text-align: left;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        .navbar.scrolled .bar {
+            background-color: var(--text-dark);
+        }
+
+        @media (max-width: 900px) {
+            .about-wrapper {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .about-image {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .about-image::before {
+                display: none;
+            }
+
+            .about-stats {
+                justify-content: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px 20px;
+            }
+
+            .logo-col {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                justify-content: center;
+                transition: 0.4s;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-item {
+                color: var(--text-dark);
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+                background-color: var(--text-dark);
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+                background-color: var(--text-dark);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="{{ url_for('static', filename='images/Gemini_Generated_Image_b2tu0nb2tu0nb2tu.png') }}"
+                    style="width: 30px; height: 30px;" alt="Logo">
+                Kem Chho <span>Ahmedabad!</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#" class="nav-item">About</a></li>
+                <li><a href="{{ url_for('photoshoot') }}" class="nav-item">Photoshoot</a></li>
+                <li><a href="{{ url_for('customise') }}" class="btn-primary">Plan Your Trip <i
+                            class="fa-solid fa-arrow-right"></i></a></li>
+
+                <li class="account-box">
+                    <span style="font-size: 0.9rem;"><i class="fa-solid fa-user-circle"></i> {{ username }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+                </li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="carousel">
+        <div class="slide active"
+            style="background-image: url('https://static.c.realme.com/IN/wm-thread/1753138317437739008.jpg.webp');">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>The Heritage City</h1>
+                <p>Discover the ancient architectural marvels of Ahmedabad.</p>
+                <!-- <a href="#" class="btn-hero">Explore Ahmedabad</a> -->
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://antpra.com/wp-content/uploads/2023/02/SABARMATI-1.png');">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Modern Vibes</h1>
+                <p>Experience the serenity of the Sabarmati Riverfront.</p>
+                <!-- <a href="#" class="btn-hero">View Attractions</a> -->
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://www.abinalex.com/wp-content/uploads/2018/11/03.-the-infinity-pool-1.jpg');">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Culture & Cuisine</h1>
+                <p>From Navratri nights to Manek Chowk delights.</p>
+                <!-- <a href="#" class="btn-hero">Taste the City</a> -->
+            </div>
+        </div>
+        <button class="arrow left-arrow" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="arrow right-arrow" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="indicators">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container about-wrapper">
+            <div class="about-text animate-on-scroll fade-in-up delay-100">
+                <span class="section-tag">Who We Are ?</span>
+                <h2 class="fade-in-up delay-200">Rediscovering the Soul of Ahmedabad</h2>
+                <p id="p" class="fade-in-up delay-300">Kem Chho Ahmedabad is not just a travel guide; it is a love
+                    letter to
+                    India's first UNESCO World
+                    Heritage City. Born from a passion for history and modernity, we bridge the gap between the ancient
+                    Pols and the futuristic Riverfront.</p>
+                <p id="p" class="fade-in-up delay-300">Our mission is to provide seamless, culturally immersive
+                    experiences.
+                    Whether you need a heritage
+                    walk, a photoshoot in the city, or a custom ride to the best spots, we are your trusted
+                    companion.</p>
+
+            </div>
+            <div class="about-image animate-on-scroll float-animate">
+                <img src="{{ url_for('serve_image', filename='kmc.jpg') }}" alt="Team Kem Chho Ahmedabad">
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="container">
+            <div class="services-grid animate-on-scroll">
+
+                <a href="{{ url_for('info') }}" class="tile-card ripple-btn">
+                    <img src="{{ url_for('serve_image', filename='btn1.jpg') }}" alt="Ahmedabad Information"
+                        class="tile-bg">
+                    <div class="tile-overlay"></div>
+                    <div class="tile-content">
+                        <i class="fa-solid fa-circle-info tile-icon"></i>
+                        <span class="tile-title">Information</span>
+                        <div class="tile-cta">Click to view details <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('customise') }}" class="tile-card ripple-btn">
+                    <img src="https://images.unsplash.com/photo-1588416936097-41850ab3d86d?q=80&w=1974"
+                        alt="Custom Packages" class="tile-bg">
+                    <div class="tile-overlay"></div>
+                    <div class="tile-content">
+                        <i class="fa-solid fa-map-location-dot tile-icon"></i>
+                        <span class="tile-title">Customise Packages</span>
+                        <div class="tile-cta">Build your own trip <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('photoshoot') }}" class="tile-card ripple-btn">
+                    <img src="{{ url_for('serve_image', filename='Adalaj stepWell.jpg') }}" alt="Ahmedabad Information"
+                        class="tile-bg">
+                    <div class="tile-overlay"></div>
+                    <div class="tile-content">
+                        <i class="fa-solid fa-camera-retro tile-icon"></i>
+                        <span class="tile-title">Photo Shoot</span>
+                        <div class="tile-cta">Book a session <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+        <div class="container footer-grid">
+            <div class="footer-col logo-col">
+                <a href="#" class="footer-logo">Kem Chho <span>Ahmedabad!</span></a>
+                <p class="footer-desc">Your premium guide to India's first World Heritage City. Discover the culture,
+                    heritage, and modern vibes of Ahmedabad.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#">Photoshoot</a></li>
+                    <li><a href="#">City Guidebook</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow</h4>
+                <ul class="social-links-vertical">
+                    <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Media Centre</a></li>
+                    <li><a href="#">Partner with us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">Privacy Notice</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Kem Chho Ahmedabad. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) { navbar.classList.add('scrolled'); }
+                else { navbar.classList.remove('scrolled'); }
+            });
+
+            const observerOptions = { threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+            const slideInterval = 5000;
+
+            function showSlide(index) {
+                if (index >= slides.length) currentSlide = 0;
+                else if (index < 0) currentSlide = slides.length - 1;
+                else currentSlide = index;
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+            function nextSlide() { showSlide(currentSlide + 1); }
+            function prevSlide() { showSlide(currentSlide - 1); }
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            dots.forEach((dot, index) => { dot.addEventListener('click', () => { showSlide(index); }); });
+            let autoPlay = setInterval(nextSlide, slideInterval);
+            const carousel = document.querySelector('.carousel');
+            carousel.addEventListener('mouseenter', () => clearInterval(autoPlay));
+            carousel.addEventListener('mouseleave', () => autoPlay = setInterval(nextSlide, slideInterval));
+
+            const rippleBtns = document.querySelectorAll('.ripple-btn');
+            rippleBtns.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    let ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    let rect = this.getBoundingClientRect();
+                    let x = e.clientX - rect.left;
+                    let y = e.clientY - rect.top;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    this.appendChild(ripple);
+                    setTimeout(() => { ripple.remove(); }, 600);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

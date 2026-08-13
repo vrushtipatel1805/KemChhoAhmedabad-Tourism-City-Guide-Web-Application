@@ -1,0 +1,26 @@
+<script>
+ var d={"fsd":[
+        {
+            "topic":"jSON",
+            "phase":"T1",
+            "content":["object","array"]
+        },
+        {
+            "topic":"node JS",
+            "phase":"T1",
+            "content":["HTTP module","FS module"]
+        }
+]}
+    document.write(`<table border="1">
+    <tr><th>topic</th>
+        <th>Phase</th>
+        <th>content</th></tr>
+    <tr><td>${d.fsd[0].topic}</td>
+        <td>${d.fsd[0].phase}</td>
+        <td>${d.fsd[0].content}</td>
+    </tr>
+    <tr><td>${d.fsd[1].topic}</td>
+        <td>${d.fsd[1].phase}</td>
+        <td>${d.fsd[1].content}</td>
+    </tr></table>`)
+</script>

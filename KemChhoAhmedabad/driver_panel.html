@@ -1,0 +1,292 @@
+<!-- driver_panel.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard | Kem Chho</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background: #005870;
+        }
+
+        .nav-tabs .nav-link {
+            color: #005870;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #005870;
+            font-weight: 700;
+            border-bottom: 3px solid #005870;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-accept {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+        }
+
+        .btn-reject {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+
+        .btn-complete {
+            background-color: #3498db;
+            color: white;
+            border: none;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark px-3 py-3">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"><i class="fas fa-taxi me-2"></i> Driver Portal</span>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-white small">Welcome, {{ driver.username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <ul class="nav nav-tabs mb-4" id="driverTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="available-tab" data-bs-toggle="tab" href="#available"
+                    role="tab">Available Rides</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active" role="tab">Active Ride</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab">History</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="driverTabsContent">
+            <!-- AVAILABLE RIDES -->
+            <div class="tab-pane fade show active" id="available" role="tabpanel">
+                <div id="available-rides-list" class="row g-3">
+                    <!-- Content injected via JS -->
+                    <div class="text-center py-5 text-muted"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                </div>
+            </div>
+
+            <!-- ACTIVE RIDE -->
+            <div class="tab-pane fade" id="active" role="tabpanel">
+                <div id="active-ride-container">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+
+            <!-- HISTORY -->
+            <div class="tab-pane fade" id="history" role="tabpanel">
+                <div class="card p-4 mb-3 border-0 shadow-sm bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted text-uppercase fw-bold mb-1">Total Earnings</h6>
+                            <h2 class="fw-bold text-success mb-0" id="total-earnings">₹0</h2>
+                        </div>
+                        <div class="text-end">
+                            <h6 class="text-muted text-uppercase fw-bold mb-1">Total Trips</h6>
+                            <h2 class="fw-bold text-dark mb-0" id="total-trips">0</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-0 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="py-3 ps-4">Date</th>
+                                    <th class="py-3">Route</th>
+                                    <th class="py-3 text-end pe-4">Fare</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-list">
+                                <tr>
+                                    <td colspan="3" class="text-center py-4 text-muted">Loading history...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let hasActiveRide = false; // Track if driver is busy
+
+        // Poll for available rides and current ride status
+        function fetchDashboardData() {
+            // 2. Active Ride (Check FIRST to determine availability)
+            fetch('/api/driver/current_ride')
+                .then(res => res.json())
+                .then(activeData => {
+                    const activeContainer = document.getElementById('active-ride-container');
+
+                    if (!activeData) {
+                        hasActiveRide = false;
+                        activeContainer.innerHTML = '<div class="text-center py-5 text-muted">You have no active rides.</div>';
+                    } else {
+                        hasActiveRide = true;
+                        activeContainer.innerHTML = `
+                        <div class="card bg-white p-4 border-start border-5 border-success">
+                            <h4 class="mb-3 fw-bold text-success"><i class="fas fa-check-circle me-2"></i> Active Ride</h4>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold">${activeData.customer}</h5>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt text-success me-2"></i> From: <strong>${activeData.pickup}</strong></p>
+                                    <p class="mb-0"><i class="fas fa-location-arrow text-danger me-2"></i> To: <strong>${activeData.stops}</strong></p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <h3 class="fw-bold text-dark">${activeData.fare}</h3>
+                                    <button onclick="updateRide(${activeData.id}, 'complete')" class="btn btn-primary w-100 mt-3 py-2">Mark Completed</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+
+                    // 1. Available Rides (Now we know if we should disable buttons)
+                    fetch('/api/driver/available_rides')
+                        .then(res => res.json())
+                        .then(data => {
+                            const listContainer = document.getElementById('available-rides-list');
+                            if (data.length === 0) {
+                                listContainer.innerHTML = '<div class="col-12 text-center text-muted py-5">No new ride requests.</div>';
+                                return;
+                            }
+
+                            let html = '';
+                            data.forEach(ride => {
+                                const disabledAttr = hasActiveRide ? 'disabled' : '';
+                                const btnClass = hasActiveRide ? 'btn-secondary' : 'btn-success';
+                                const btnText = hasActiveRide ? 'Busy' : 'Accept';
+
+                                html += `
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="badge bg-warning text-dark">NEW REQUEST</span>
+                                        <span class="fw-bold text-success">${ride.fare}</span>
+                                    </div>
+                                    <h5 class="fw-bold mb-1">${ride.pickup}</h5>
+                                    <small class="text-muted d-block mb-2">to ${ride.stops}</small>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-user-circle fa-lg text-secondary me-2"></i>
+                                        <span>${ride.customer}</span>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-auto">
+                                        <button onclick="updateRide(${ride.id}, 'accept')" class="btn ${btnClass} flex-grow-1" ${disabledAttr}>${btnText}</button>
+                                        <button onclick="updateRide(${ride.id}, 'reject')" class="btn btn-outline-danger flex-grow-1">Reject</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                            });
+                            listContainer.innerHTML = html;
+                        });
+                });
+        }
+
+        function updateRide(rideId, action) {
+            console.log("updateRide called:", rideId, action);
+            // alert("Processing request..."); // Feedback for user
+            fetch('/api/driver/update_ride', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ride_id: rideId, action: action })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("API Response:", data);
+                    if (data.error) {
+                        alert("Error: " + data.error);
+                    } else {
+                        // alert("Success: " + action);
+                        fetchDashboardData();
+                    }
+                })
+                .catch(err => {
+                    console.error("Fetch Error:", err);
+                    alert("Network Error: " + err);
+                });
+        }
+
+        // Initial load and polling
+        fetchDashboardData();
+        setInterval(fetchDashboardData, 3000); // Poll every 3 seconds
+
+        // Fetch History on Tab Click
+        document.getElementById('history-tab').addEventListener('click', fetchHistory);
+
+        function fetchHistory() {
+            fetch('/api/driver/history')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) return;
+
+                    document.getElementById('total-earnings').innerText = '₹' + data.total_earnings;
+                    document.getElementById('total-trips').innerText = data.completed_rides;
+
+                    const listContainer = document.getElementById('history-list');
+                    if (data.history.length === 0) {
+                        listContainer.innerHTML = '<tr><td colspan="3" class="text-center py-4 text-muted">No completed rides yet.</td></tr>';
+                        return;
+                    }
+
+                    let html = '';
+                    data.history.forEach(ride => {
+                        html += `
+                        <tr>
+                            <td class="ps-4">
+                                <span class="fw-bold text-dark">${ride.date}</span>
+                            </td>
+                            <td>
+                                <div><small class="text-muted">From:</small> <span class="fw-medium">${ride.pickup}</span></div>
+                                <div><small class="text-muted">To:</small> <span class="fw-medium">${ride.stops}</span></div>
+                            </td>
+                            <td class="text-end pe-4">
+                                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">₹${ride.fare}</span>
+                            </td>
+                        </tr>`;
+                    });
+                    listContainer.innerHTML = html;
+                })
+                .catch(err => console.error("History Error:", err));
+        }
+    </script>
+</body>
+
+</html>
